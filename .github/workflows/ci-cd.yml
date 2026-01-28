@@ -1,0 +1,23 @@
+name: CI/CD - Pedidos Veloz
+
+on:
+    push:
+        branches: ["main"]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v3
+
+            - name: Build services
+              run: |
+                  docker build -t pedidos ./services/pedidos
+                  docker build -t pagamentos ./services/pagamentos
+                  docker build -t estoque ./services/estoque
+                  docker build -t gateway ./services/gateway
